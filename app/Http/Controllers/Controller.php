@@ -7,7 +7,18 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use GuzzleHttp\Client; //usar guzzle
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected function realizarPeticion($metodo, $url, $parametros=[])
+    {
+    	$cliente = new Client(['curl' => [CURLOPT_CAINFO => base_path('resources/certs/cacert.pem')]]);
+
+    	$respuesta = $cliente->request($metodo, $url, $parametros);
+
+    	return $respuesta->getBody()->getContents();
+    }
 }

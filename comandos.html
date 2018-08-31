@@ -20,7 +20,18 @@ composer require guzzlehttp/guzzle
 ############################################################################
 
 ############################################################################
+Se crea la funcion dentro del controller.php 
 
+use GuzzleHttp\Client; //usar guzzle
+
+protected function realizarPeticion($metodo, $url, $parametros=[])
+    {
+    	$cliente = new Client(['curl' => [CURLOPT_CAINFO => base_path('resources/certs/cacert.pem')]]);
+
+    	$respuesta = $cliente->request($metodo, $url, $parametros);
+
+    	return $respuesta->getBody()->getContents();
+    }
 ############################################################################
 
 
